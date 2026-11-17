@@ -2,6 +2,13 @@
 
 > 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
 
+## 2026-11-17 ingest：park2023-generative-agents
+- 新增：papers/park2023-generative-agents.md、concepts/agent-memory.md
+- 更新：concepts/self-reflection.md、papers/shinn2023-reflexion.md、index.md
+- 術語衝突（不是數字矛盾）：「reflection」在 Reflexion 指針對失敗的反省，在 Generative Agents 指把觀察歸納成高層推論。已在 self-reflection.md 分開說明，避免簡報混用。
+- 無標準 benchmark（評估是人類評分 believability），因此沒有新增 benchmark 頁。
+- lint 第 1 次：8 個問題——出處只標在上層標題，底下列表項目的數字沒有各自出處（違反第 6 節「同一段」規則）。逐項補上後通過。
+
 ## 2026-11-17 ingest：shinn2023-reflexion
 - 新增：papers/shinn2023-reflexion.md、concepts/self-reflection.md、benchmarks/humaneval.md
 - 更新：benchmarks/alfworld.md、benchmarks/hotpotqa.md（補 Reflexion 結果並註明不可直接比較）、papers/yao2022-react.md、concepts/reasoning-and-acting.md、index.md

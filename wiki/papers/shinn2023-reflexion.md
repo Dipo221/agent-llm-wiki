@@ -65,7 +65,7 @@ Agent 失敗後**用文字反省**「哪裡做錯、下次怎麼做」，把反�
 ## 和其他論文的關係
 
 - Actor 直接用 [ReAct](yao2022-react.md)（決策、問答）和 [CoT](wei2022-chain-of-thought.md)（推理），ALFWorld 沿用 ReAct 的 few-shot 範例 [@shinn2023-reflexion, §4.1]。
-- 概念見 [Self-reflection](../concepts/self-reflection.md)。
+- 概念見 [Self-reflection](../concepts/self-reflection.md)、[Agent memory](../concepts/agent-memory.md)；[Generative Agents](park2023-generative-agents.md) 也用「reflection」一詞，但意思是歸納而不是針對失敗反省。
 - Benchmark：[ALFWorld](../benchmarks/alfworld.md)、[HotpotQA](../benchmarks/hotpotqa.md)、[HumanEval](../benchmarks/humaneval.md)。
 
 > 💭 筆記：Reflexion 的「嘗試 → 評分 → 反省 → 重試、最多 N 次」就是第十講講的 loop（有審查、有停止條件）。

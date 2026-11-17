@@ -7,6 +7,7 @@
 - [Wei 2022 — Chain-of-Thought Prompting](papers/wei2022-chain-of-thought.md) — few-shot 範例加上推理過程，大模型的推理能力大幅提升
 - [Yao 2022 — ReAct](papers/yao2022-react.md) — 交錯產生想法與行動，邊推理邊查外部資料
 - [Shinn 2023 — Reflexion](papers/shinn2023-reflexion.md) — 失敗後寫文字反省存進記憶，下次帶著經驗重試
+- [Park 2023 — Generative Agents](papers/park2023-generative-agents.md) — 記憶流＋反思＋計畫，25 個 agent 模擬小鎮生活
 - [Schick 2023 — Toolformer](papers/schick2023-toolformer.md) — 模型自己標註並篩選 API 呼叫，學會何時用哪個工具
 
 ## 概念頁
@@ -15,7 +16,8 @@
 - [Few-shot prompting](concepts/few-shot-prompting.md) — 不 finetune，只在 prompt 放範例
 - [Reasoning and Acting](concepts/reasoning-and-acting.md) — 推理引導行動、行動回饋推理
 - [Tool use](concepts/tool-use.md) — 呼叫外部工具補足 LLM 的先天限制
-- [Self-reflection](concepts/self-reflection.md) — 把成功／失敗訊號放大成文字反省
+- [Self-reflection](concepts/self-reflection.md) — 把成功／失敗訊號放大成文字反省（另注意 Generative Agents 的不同用法）
+- [Agent memory](concepts/agent-memory.md) — 短期／長期記憶、記憶流與檢索
 
 ## 比較頁
 
