@@ -16,6 +16,8 @@ updated: 2026-11-17
 
 輸入一題文字應用題，輸出數字答案，以 solve rate（答對率 %）計分 [@wei2022-chain-of-thought, Table 2]。
 
+其他較簡單的數學應用題見 [ASDiv、SVAMP、MAWPS](math-word-problems.md)。
+
 ## 用過它的論文與成績
 
 | 論文 | 設定 | 成績（solve rate %） | 出處 |

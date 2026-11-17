@@ -2,7 +2,7 @@
 type: paper
 title: "ReAct: Synergizing Reasoning and Acting in Language Models"
 sources: [yao2022-react]
-related: [concepts/reasoning-and-acting.md, concepts/chain-of-thought.md, concepts/few-shot-prompting.md, comparisons/cot-vs-react.md, benchmarks/hotpotqa.md, benchmarks/fever.md, benchmarks/alfworld.md, benchmarks/webshop.md]
+related: [concepts/reasoning-and-acting.md, concepts/tool-use.md, papers/schick2023-toolformer.md, concepts/chain-of-thought.md, concepts/few-shot-prompting.md, comparisons/cot-vs-react.md, benchmarks/hotpotqa.md, benchmarks/fever.md, benchmarks/alfworld.md, benchmarks/webshop.md]
 arxiv: 2210.03629
 authors: Shunyu Yao et al.（Princeton University、Google Research）
 venue: ICLR 2023
@@ -87,4 +87,5 @@ updated: 2026-11-17
 
 - 把 [CoT](wei2022-chain-of-thought.md) 當「只推理」baseline，並和它結合（ReAct ↔ CoT-SC）。比較見 [CoT vs ReAct](../comparisons/cot-vs-react.md)。
 - 概念見 [Reasoning and Acting](../concepts/reasoning-and-acting.md)、[Few-shot prompting](../concepts/few-shot-prompting.md)。
+- 同樣讓模型使用工具的 [Toolformer](schick2023-toolformer.md) 改用 finetune、每次最多一個呼叫；比較見 [Tool use](../concepts/tool-use.md)。
 - Benchmark：[HotpotQA](../benchmarks/hotpotqa.md)、[FEVER](../benchmarks/fever.md)、[ALFWorld](../benchmarks/alfworld.md)、[WebShop](../benchmarks/webshop.md)。

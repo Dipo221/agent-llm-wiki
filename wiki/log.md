@@ -2,6 +2,12 @@
 
 > 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
 
+## 2026-11-17 ingest：schick2023-toolformer
+- 新增：papers/schick2023-toolformer.md、concepts/tool-use.md、benchmarks/math-word-problems.md
+- 更新：papers/yao2022-react.md（連到 Toolformer）、concepts/few-shot-prompting.md（zero-shot 對照）、concepts/reasoning-and-acting.md、benchmarks/gsm8k.md、index.md
+- **矛盾**：math-word-problems.md——GPT-3 175B 在 SVAMP，CoT 論文報 65.7（text-davinci-002、few-shot），Toolformer 論文報 10.0（原始 davinci、zero-shot）。依規則並列兩種說法並加 ⚠ 區塊，不下結論。
+- lint 第 1 次：5 個問題——3 頁沒列入 index（流程順序：先寫頁面、後更新 index）、表頭「6.7B／175B」沒出處、⚠ 區塊未記 log。修正後通過。
+
 ## 2026-11-17 ingest：yao2022-react
 - 新增：papers/yao2022-react.md、concepts/reasoning-and-acting.md、comparisons/cot-vs-react.md、benchmarks/hotpotqa.md、fever.md、alfworld.md、webshop.md
 - 更新：concepts/chain-of-thought.md（補 CoT-SC 與幻覺比例）、concepts/few-shot-prompting.md（補 ReAct 範例數）
