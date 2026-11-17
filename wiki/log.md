@@ -1,0 +1,19 @@
+# Wiki 紀錄
+
+> 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
+
+## 2026-11-17 ingest：yao2022-react
+- 新增：papers/yao2022-react.md、concepts/reasoning-and-acting.md、comparisons/cot-vs-react.md、benchmarks/hotpotqa.md、fever.md、alfworld.md、webshop.md
+- 更新：concepts/chain-of-thought.md（補 CoT-SC 與幻覺比例）、concepts/few-shot-prompting.md（補 ReAct 範例數）
+- 矛盾檢查：無矛盾。ReAct 在 HotpotQA 略輸 CoT（27.4 vs 29.4）是同一篇論文內的結果，不是跨論文矛盾。
+- lint：全部通過。
+
+## 2026-11-17 ingest：wei2022-chain-of-thought
+- 新增：papers/wei2022-chain-of-thought.md、concepts/chain-of-thought.md、concepts/few-shot-prompting.md、benchmarks/gsm8k.md
+- lint 第 1 次：1 個問題——「（§3.2）」章節編號被當成沒出處的數字。修正：改成 [@slug, §3.2] 格式，並讓 lint.py 忽略 §／Table／Fig. 編號。
+- lint 自我測試：故意把 GSM8K 的 56.9 改成 58.1，lint 正確抓出「原文找不到」，還原後通過。
+- lint 第 2 次：全部通過。
+
+## 2026-11-17 建立：Wiki 骨架
+- 依訪談需求摘要建立 AGENTS.md、資料夾、index.md、log.md、scripts/lint.py。
+- raw/papers/ 下載 6 篇論文 PDF 並轉 txt。
