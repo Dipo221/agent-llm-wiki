@@ -1,0 +1,12 @@
+<svg viewBox="0 0 440 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="派對消息擴散">
+  <text class="lbl" x="220" y="30" text-anchor="middle">知道情人節派對的 agent</text>
+  <line class="line" x1="40" y1="330" x2="400" y2="330"/>
+  <rect class="dim" x="80" y="318" width="110" height="12" rx="4"/>
+  <rect class="hl" x="250" y="160" width="110" height="170" rx="6"/>
+  <text class="lbl" x="135" y="304" text-anchor="middle">4%</text>
+  <text class="lbl" x="305" y="148" text-anchor="middle" style="font-size:30px">52%</text>
+  <text class="sm" x="135" y="358" text-anchor="middle">開始</text>
+  <text class="sm" x="305" y="358" text-anchor="middle">兩個遊戲日後</text>
+  <text class="sm" x="220" y="410" text-anchor="middle">被邀請 12 個，準時赴約 5 個</text>
+  <g><circle class="hl2" cx="120" cy="442" r="10"/><circle class="hl2" cx="145" cy="442" r="10"/><circle class="hl2" cx="170" cy="442" r="10"/><circle class="hl2" cx="195" cy="442" r="10"/><circle class="hl2" cx="220" cy="442" r="10"/><circle class="dim" cx="245" cy="442" r="10"/><circle class="dim" cx="270" cy="442" r="10"/><circle class="dim" cx="295" cy="442" r="10"/><circle class="dim" cx="320" cy="442" r="10"/><circle class="dim" cx="345" cy="442" r="10"/><circle class="dim" cx="370" cy="442" r="10"/><circle class="dim" cx="395" cy="442" r="10"/></g>
+</svg>

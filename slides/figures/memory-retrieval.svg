@@ -1,0 +1,12 @@
+<svg viewBox="0 0 470 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="記憶流檢索">
+  <text class="lbl" x="20" y="30">記憶流（自然語言記錄所有經歷）</text>
+  <rect class="box" x="20" y="45" width="430" height="44" rx="8"/><text class="sm" x="36" y="74">冰箱是空的</text>
+  <rect class="box" x="20" y="97" width="430" height="44" rx="8"/><text class="sm" x="36" y="126">⋯</text>
+  <rect class="box" x="20" y="149" width="430" height="44" rx="8"/><text class="sm" x="36" y="178">⋯</text>
+  <path class="arrowA" d="M235 200 L235 246"/>
+  <rect class="dim" x="20" y="254" width="430" height="120" rx="10"/>
+  <text class="lbl" x="235" y="288" text-anchor="middle" style="font-size:19px">三個分數加權排序</text>
+  <text class="sm" x="85" y="326" text-anchor="middle">recency</text><text class="sm" x="85" y="352" text-anchor="middle">多近</text>
+  <text class="sm" x="235" y="326" text-anchor="middle">importance</text><text class="sm" x="235" y="352" text-anchor="middle">多重要</text>
+  <text class="sm" x="385" y="326" text-anchor="middle">relevance</text><text class="sm" x="385" y="352" text-anchor="middle">多相關</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg viewBox="0 0 440 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GSM8K solve rate">
+  <text class="lbl" x="220" y="30" text-anchor="middle">GSM8K solve rate（%）</text>
+  <text class="sm" x="220" y="56" text-anchor="middle">PaLM 540B</text>
+  <line class="line" x1="40" y1="400" x2="400" y2="400"/>
+  <rect class="dim" x="80" y="345" width="110" height="55" rx="6"/>
+  <rect class="hl" x="250" y="225" width="110" height="175" rx="6"/>
+  <text class="lbl" x="135" y="333" text-anchor="middle">17.9</text>
+  <text class="lbl" x="305" y="213" text-anchor="middle" style="font-size:30px">56.9</text>
+  <text class="sm" x="135" y="430" text-anchor="middle">Standard</text>
+  <text class="sm" x="305" y="430" text-anchor="middle">Chain-of-Thought</text>
+</svg>

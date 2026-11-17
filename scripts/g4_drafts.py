@@ -6,6 +6,8 @@ import re
 import sys
 from pathlib import Path
 from slidelib import ROOT, CITE_RE, parse, listval, numbers, blocks, has_number, norm, report
+import subprocess
+from measure import THEMES, measure, problems_of
 
 run = Path(sys.argv[1])
 only = set(sys.argv[2:])
@@ -51,6 +53,16 @@ for d in sorted((run / "drafts").glob("s*.md")):
     for n in numbers(figtext):
         if not has_number(n, cardtext):
             problems.append(f"{d.name}：圖 {fig}.svg 裡的數字 {n} 不在這頁的卡片上")
-ok = report(run, "G4 忠實度（腳本）", problems,
+# v2.1：把 G5 的溢出量測搬進 G4——渲染到暫存檔（不是正式的 slides/index.html），用 Chrome 實際量
+tmp = (ROOT / "slides" / "_g4_preview.html").resolve()
+subprocess.run([sys.executable, str(Path(__file__).parent / "render_deck.py"), str(run), str(tmp)], check=True, capture_output=True)
+for t in THEMES:
+    res = measure(tmp, t)
+    if res is None:
+        problems.append(f"[{t}] 版面量測沒有回傳結果")
+    else:
+        problems += problems_of(res, t, only or None)
+tmp.unlink()
+ok = report(run, "G4 忠實度（腳本＋版面量測）", problems,
             [f"檢查 {checked} 頁" + (f"（只檢查 {' '.join(sorted(only))}）" if only else "")])
 sys.exit(0 if ok else 1)

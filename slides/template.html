@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents 是什麼？— 教學簡報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+/* ===== 共用版型：舞台固定 1280×720，依視窗等比縮放 ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--page)}
+body{font-family:var(--font);color:var(--fg);transition:background .3s}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:52px 64px 0;background:var(--bg);overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow)}
+.slide.active{display:flex}
+.content{flex:1;display:flex;gap:40px;min-height:0;overflow:hidden}
+.text{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
+.split .text{flex:0 0 52%}
+.fig{flex:1;display:flex;align-items:center;justify-content:center;min-width:0}
+.fig svg{width:100%;height:auto;max-height:520px}
+.below .content{flex-direction:column;gap:12px}
+.below .fig{flex:1;min-height:0}
+.below .fig svg{max-height:100%;width:auto;max-width:100%}
+h1{font-family:var(--hfont);font-size:44px;line-height:1.2;font-weight:900;color:var(--h);letter-spacing:.01em}
+.kicker{font-family:var(--kfont);font-size:18px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;font-weight:700;order:-1}
+p{font-size:24px;line-height:1.6}
+ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+li{font-size:24px;line-height:1.5;padding-left:30px;position:relative}
+li::before{content:var(--bullet);position:absolute;left:0;color:var(--accent);font-weight:700}
+strong{color:var(--strong);font-weight:700}
+code,pre{font-family:"JetBrains Mono",monospace}
+code{font-size:.85em;background:var(--codebg);padding:1px 6px;border-radius:4px}
+pre{font-size:19px;line-height:1.5;background:var(--codebg);padding:16px 20px;border-radius:var(--radius);white-space:pre-wrap;border-left:4px solid var(--accent)}
+table{border-collapse:collapse;font-size:21px;width:100%}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--accent);font-weight:700;border-bottom:2px solid var(--accent)}
+.callout{font-size:22px;line-height:1.55;padding:14px 20px;background:var(--panel);border-left:5px solid var(--accent2);border-radius:var(--radius)}
+sup.cite{font-size:13px;color:var(--accent);font-weight:700;margin-left:2px;cursor:help;font-family:"JetBrains Mono",monospace}
+footer.src{flex:0 0 auto;margin:10px -64px 0;padding:8px 64px 10px;font-size:13px;line-height:1.45;color:var(--muted);border-top:1px solid var(--line);min-height:34px}
+footer.src ol{list-style:none;display:flex;flex-wrap:wrap;gap:2px 18px}
+footer.src li{font-size:13px;padding:0;line-height:1.45}
+footer.src li::before{content:none}
+footer.src li span{color:var(--accent);font-weight:700;margin-right:4px}
+footer.src a{color:var(--muted)}
+.wikis{margin-top:2px}
+/* 封面 */
+.title .content{flex-direction:column;justify-content:center}
+.title h1{font-size:68px}
+.title .text{gap:26px}
+/* 介面 */
+#ui{position:fixed;right:16px;top:12px;display:flex;gap:6px;z-index:10;font-family:"Noto Sans TC",sans-serif}
+#ui button{border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:6px 12px;border-radius:20px;font-size:14px;cursor:pointer;font-family:inherit}
+#ui button.on{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+#nav{position:fixed;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar{height:100%;background:var(--accent);transition:width .3s}
+#count{position:fixed;left:16px;top:14px;font:600 14px "JetBrains Mono",monospace;color:var(--muted)}
+.noui #ui,.noui #nav,.noui #count{display:none}
+.measure-all .slide{display:flex}
+/* SVG 圖解（顏色跟著主題走） */
+.fig .box{fill:var(--panel);stroke:var(--accent);stroke-width:2.5}
+.fig .box2{fill:var(--panel);stroke:var(--accent2);stroke-width:2.5}
+.fig .hl{fill:var(--accent);stroke:none}
+.fig .hl2{fill:var(--accent2);stroke:none}
+.fig .dim{fill:var(--line);stroke:none}
+.fig .lbl{fill:var(--fg);font-family:var(--font);font-size:22px;font-weight:700}
+.fig .sm{fill:var(--muted);font-family:var(--font);font-size:17px}
+.fig .on{fill:var(--onaccent);font-family:var(--font);font-size:20px;font-weight:700}
+.fig .arrow{stroke:var(--muted);stroke-width:3;fill:none;marker-end:url(#ah)}
+.fig .arrowA{stroke:var(--accent);stroke-width:3;fill:none;marker-end:url(#ahA)}
+.fig .line{stroke:var(--line);stroke-width:2;fill:none}
+
+/* ===== 主題一：深色科技 ===== */
+[data-theme=tech]{--page:#05070d;--bg:#0b1020;--fg:#dbe4ff;--h:#ffffff;--muted:#8a94b8;--accent:#3ee6ff;--accent2:#ff4fd8;--onaccent:#05070d;--strong:#7cf7c4;--panel:#121a33;--line:#25305a;--codebg:#121a33;--radius:6px;--shadow:0 0 0 1px #1d2a55,0 0 60px rgba(62,230,255,.08);--bullet:"▸";
+  --font:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--hfont:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--kfont:"JetBrains Mono",monospace}
+[data-theme=tech] .slide{background-image:linear-gradient(rgba(62,230,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(62,230,255,.04) 1px,transparent 1px);background-size:40px 40px}
+[data-theme=tech] h1{text-shadow:0 0 24px rgba(62,230,255,.25)}
+/* ===== 主題二：乾淨教科書 ===== */
+[data-theme=textbook]{--page:#e9ecef;--bg:#ffffff;--fg:#25303b;--h:#14213d;--muted:#6c7a89;--accent:#1d5fbf;--accent2:#e8833a;--onaccent:#ffffff;--strong:#14213d;--panel:#f2f6fb;--line:#d9e0e8;--codebg:#f2f6fb;--radius:4px;--shadow:0 10px 40px rgba(20,33,61,.12);--bullet:"●";
+  --font:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--hfont:"Noto Serif TC","Noto Serif CJK TC",serif;--kfont:"Noto Sans TC",sans-serif}
+[data-theme=textbook] li::before{font-size:14px;top:7px}
+[data-theme=textbook] .slide{border-top:10px solid var(--accent)}
+/* ===== 主題三：手繪筆記 ===== */
+[data-theme=sketch]{--page:#d9cfbd;--bg:#fbf6ea;--fg:#3a3226;--h:#2b2418;--muted:#857a66;--accent:#d2502f;--accent2:#2f7d6d;--onaccent:#fffaf0;--strong:#2b2418;--panel:#f3ead3;--line:#d8cbb0;--codebg:#f3ead3;--radius:14px 10px 16px 8px;--shadow:4px 6px 0 rgba(60,45,20,.18);--bullet:"✎";
+  --font:"LXGW WenKai TC","Noto Sans TC",sans-serif;--hfont:"LXGW WenKai TC","Noto Sans TC",sans-serif;--kfont:"LXGW WenKai TC",sans-serif}
+[data-theme=sketch] .slide{background-image:repeating-linear-gradient(transparent 0 35px,rgba(120,100,60,.08) 35px 36px)}
+[data-theme=sketch] h1{text-decoration:underline wavy var(--accent) 2px;text-underline-offset:10px}
+[data-theme=sketch] .fig svg{filter:url(#rough)}
+[data-theme=sketch] .kicker{text-transform:none;letter-spacing:.02em}
+</style>
+</head>
+<body data-theme="tech">
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker>
+    <marker id="ahA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker>
+    <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  </defs>
+</svg>
+<div id="count"></div>
+<div id="ui">
+  <button data-t="tech">深色科技</button>
+  <button data-t="textbook">教科書</button>
+  <button data-t="sketch">手繪筆記</button>
+</div>
+<div id="stage">
+<!--SLIDES-->
+</div>
+<div id="nav"><div id="bar"></div></div>
+<pre id="check-result" hidden></pre>
+<script>
+const q = new URLSearchParams(location.search);
+const slides = [...document.querySelectorAll('.slide')];
+let cur = Math.max(0, Math.min(slides.length - 1, (parseInt(q.get('slide')) || parseInt(location.hash.slice(1)) || 1) - 1));
+function setTheme(t){document.body.dataset.theme=t;document.querySelectorAll('#ui button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));try{localStorage.setItem('deck-theme',t)}catch(e){}}
+function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+  document.getElementById('count').textContent=`${cur+1} / ${slides.length}`;document.getElementById('bar').style.width=`${(cur+1)/slides.length*100}%`;history.replaceState(null,'',location.pathname+location.search+'#'+(cur+1))}
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*(q.has('check')?1:0.96);document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`}
+document.querySelectorAll('#ui button').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(cur+1);if(['ArrowLeft','PageUp'].includes(e.key))show(cur-1);if(e.key==='f')document.documentElement.requestFullscreen?.()});
+document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX>innerWidth/2?cur+1:cur-1)});
+addEventListener('resize',fit);
+let saved=null;try{saved=localStorage.getItem('deck-theme')}catch(e){}
+setTheme(q.get('theme')||saved||'tech');
+if(q.has('noui'))document.body.classList.add('noui');
+fit();show(cur);
+/* 檢查模式（G5 用）：逐頁量測內容與頁尾有沒有超出版面 */
+if(q.has('check')){
+  const run=()=>{const start=cur,res=[];slides.forEach((s,k)=>{show(k);const c=s.querySelector('.content'),f=s.querySelector('footer'),sr=s.getBoundingClientRect();
+    const over=c.scrollHeight-c.clientHeight,overW=c.scrollWidth-c.clientWidth;const fb=f.getBoundingClientRect().bottom-sr.bottom;
+    const imgs=[...s.querySelectorAll('figure svg')].filter(v=>v.getBoundingClientRect().height<20).length;
+    res.push({slide:s.dataset.id,overflowY:Math.max(0,over),overflowX:Math.max(0,overW),footerOut:Math.max(0,Math.round(fb)),emptyFigures:imgs})});
+    const out=document.getElementById('check-result');out.textContent=JSON.stringify({theme:document.body.dataset.theme,fonts:document.fonts.status+' ('+[...document.fonts].filter(f=>f.status==='loaded').length+'/'+document.fonts.size+' faces, waited '+tries+')',slides:res});show(start);};
+  document.body.classList.add('measure-all');void document.body.offsetHeight;
+  let tries=0;const wait=()=>{if((document.fonts.status==='loaded'&&tries>4)||tries>120){document.body.classList.remove('measure-all');setTimeout(run,200)}else{tries++;setTimeout(wait,250)}};
+  document.fonts.ready.then(wait);
+}
+</script>
+</body>
+</html>

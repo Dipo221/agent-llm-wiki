@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents 是什麼？— 教學簡報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+/* ===== 共用版型：舞台固定 1280×720，依視窗等比縮放 ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--page)}
+body{font-family:var(--font);color:var(--fg);transition:background .3s}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:52px 64px 0;background:var(--bg);overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow)}
+.slide.active{display:flex}
+.content{flex:1;display:flex;gap:40px;min-height:0;overflow:hidden}
+.text{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
+.split .text{flex:0 0 52%}
+.fig{flex:1;display:flex;align-items:center;justify-content:center;min-width:0}
+.fig svg{width:100%;height:auto;max-height:520px}
+.below .content{flex-direction:column;gap:12px}
+.below .fig{flex:1;min-height:0}
+.below .fig svg{max-height:100%;width:auto;max-width:100%}
+h1{font-family:var(--hfont);font-size:44px;line-height:1.2;font-weight:900;color:var(--h);letter-spacing:.01em}
+.kicker{font-family:var(--kfont);font-size:18px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;font-weight:700;order:-1}
+p{font-size:24px;line-height:1.6}
+ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+li{font-size:24px;line-height:1.5;padding-left:30px;position:relative}
+li::before{content:var(--bullet);position:absolute;left:0;color:var(--accent);font-weight:700}
+strong{color:var(--strong);font-weight:700}
+code,pre{font-family:"JetBrains Mono",monospace}
+code{font-size:.85em;background:var(--codebg);padding:1px 6px;border-radius:4px}
+pre{font-size:19px;line-height:1.5;background:var(--codebg);padding:16px 20px;border-radius:var(--radius);white-space:pre-wrap;border-left:4px solid var(--accent)}
+table{border-collapse:collapse;font-size:21px;width:100%}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--accent);font-weight:700;border-bottom:2px solid var(--accent)}
+.callout{font-size:22px;line-height:1.55;padding:14px 20px;background:var(--panel);border-left:5px solid var(--accent2);border-radius:var(--radius)}
+sup.cite{font-size:13px;color:var(--accent);font-weight:700;margin-left:2px;cursor:help;font-family:"JetBrains Mono",monospace}
+footer.src{flex:0 0 auto;margin:10px -64px 0;padding:8px 64px 10px;font-size:13px;line-height:1.45;color:var(--muted);border-top:1px solid var(--line);min-height:34px}
+footer.src ol{list-style:none;display:flex;flex-wrap:wrap;gap:2px 18px}
+footer.src li{font-size:13px;padding:0;line-height:1.45}
+footer.src li::before{content:none}
+footer.src li span{color:var(--accent);font-weight:700;margin-right:4px}
+footer.src a{color:var(--muted)}
+.wikis{margin-top:2px}
+/* 封面 */
+.title .content{flex-direction:column;justify-content:center}
+.title h1{font-size:68px}
+.title .text{gap:26px}
+/* 介面 */
+#ui{position:fixed;right:16px;top:12px;display:flex;gap:6px;z-index:10;font-family:"Noto Sans TC",sans-serif}
+#ui button{border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:6px 12px;border-radius:20px;font-size:14px;cursor:pointer;font-family:inherit}
+#ui button.on{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+#nav{position:fixed;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar{height:100%;background:var(--accent);transition:width .3s}
+#count{position:fixed;left:16px;top:14px;font:600 14px "JetBrains Mono",monospace;color:var(--muted)}
+.noui #ui,.noui #nav,.noui #count{display:none}
+.measure-all .slide{display:flex}
+/* SVG 圖解（顏色跟著主題走） */
+.fig .box{fill:var(--panel);stroke:var(--accent);stroke-width:2.5}
+.fig .box2{fill:var(--panel);stroke:var(--accent2);stroke-width:2.5}
+.fig .hl{fill:var(--accent);stroke:none}
+.fig .hl2{fill:var(--accent2);stroke:none}
+.fig .dim{fill:var(--line);stroke:none}
+.fig .lbl{fill:var(--fg);font-family:var(--font);font-size:22px;font-weight:700}
+.fig .sm{fill:var(--muted);font-family:var(--font);font-size:17px}
+.fig .on{fill:var(--onaccent);font-family:var(--font);font-size:20px;font-weight:700}
+.fig .arrow{stroke:var(--muted);stroke-width:3;fill:none;marker-end:url(#ah)}
+.fig .arrowA{stroke:var(--accent);stroke-width:3;fill:none;marker-end:url(#ahA)}
+.fig .line{stroke:var(--line);stroke-width:2;fill:none}
+
+/* ===== 主題一：深色科技 ===== */
+[data-theme=tech]{--page:#05070d;--bg:#0b1020;--fg:#dbe4ff;--h:#ffffff;--muted:#8a94b8;--accent:#3ee6ff;--accent2:#ff4fd8;--onaccent:#05070d;--strong:#7cf7c4;--panel:#121a33;--line:#25305a;--codebg:#121a33;--radius:6px;--shadow:0 0 0 1px #1d2a55,0 0 60px rgba(62,230,255,.08);--bullet:"▸";
+  --font:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--hfont:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--kfont:"JetBrains Mono",monospace}
+[data-theme=tech] .slide{background-image:linear-gradient(rgba(62,230,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(62,230,255,.04) 1px,transparent 1px);background-size:40px 40px}
+[data-theme=tech] h1{text-shadow:0 0 24px rgba(62,230,255,.25)}
+/* ===== 主題二：乾淨教科書 ===== */
+[data-theme=textbook]{--page:#e9ecef;--bg:#ffffff;--fg:#25303b;--h:#14213d;--muted:#6c7a89;--accent:#1d5fbf;--accent2:#e8833a;--onaccent:#ffffff;--strong:#14213d;--panel:#f2f6fb;--line:#d9e0e8;--codebg:#f2f6fb;--radius:4px;--shadow:0 10px 40px rgba(20,33,61,.12);--bullet:"●";
+  --font:"Noto Sans TC","Noto Sans CJK TC",sans-serif;--hfont:"Noto Serif TC","Noto Serif CJK TC",serif;--kfont:"Noto Sans TC",sans-serif}
+[data-theme=textbook] li::before{font-size:14px;top:7px}
+[data-theme=textbook] .slide{border-top:10px solid var(--accent)}
+/* ===== 主題三：手繪筆記 ===== */
+[data-theme=sketch]{--page:#d9cfbd;--bg:#fbf6ea;--fg:#3a3226;--h:#2b2418;--muted:#857a66;--accent:#d2502f;--accent2:#2f7d6d;--onaccent:#fffaf0;--strong:#2b2418;--panel:#f3ead3;--line:#d8cbb0;--codebg:#f3ead3;--radius:14px 10px 16px 8px;--shadow:4px 6px 0 rgba(60,45,20,.18);--bullet:"✎";
+  --font:"LXGW WenKai TC","Noto Sans TC",sans-serif;--hfont:"LXGW WenKai TC","Noto Sans TC",sans-serif;--kfont:"LXGW WenKai TC",sans-serif}
+[data-theme=sketch] .slide{background-image:repeating-linear-gradient(transparent 0 35px,rgba(120,100,60,.08) 35px 36px)}
+[data-theme=sketch] h1{text-decoration:underline wavy var(--accent) 2px;text-underline-offset:10px}
+[data-theme=sketch] .fig svg{filter:url(#rough)}
+[data-theme=sketch] .kicker{text-transform:none;letter-spacing:.02em}
+</style>
+</head>
+<body data-theme="tech">
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker>
+    <marker id="ahA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/></marker>
+    <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  </defs>
+</svg>
+<div id="count"></div>
+<div id="ui">
+  <button data-t="tech">深色科技</button>
+  <button data-t="textbook">教科書</button>
+  <button data-t="sketch">手繪筆記</button>
+</div>
+<div id="stage">
+<section class="slide title" data-id="S01"><div class="content"><div class="text"><p class="kicker">生成式 AI 第十週 · LLM Wiki 教學簡報</p>
+<h1>AI Agents 是什麼？從「會聊天」到「會做事」</h1>
+<p>用 6 篇論文，一步一步看大型語言模型（LLM）怎麼變成 agent。</p>
+<div class="callout">內容只取自 LLM Wiki；時間線數字是 arXiv 編號（前四碼是年月）<sup class="cite" title="Wei 2022 (CoT) p.1；Yao 2022 (ReAct) p.1；Schick 2023 (Toolformer) p.1；Shinn 2023 (Reflexion) p.1；Park 2023 (Generative Agents) p.1；Wang 2023 (Survey) p.1">1,2,3,4,5,6</sup>。</div></div><figure class="fig"><svg viewBox="0 0 1150 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="六篇論文時間線">
+  <line class="line" x1="40" y1="70" x2="1110" y2="70" style="stroke-width:4"/>
+  <g>
+    <circle class="hl" cx="90" cy="70" r="13"/><text class="lbl" x="90" y="40" text-anchor="middle">CoT</text><text class="sm" x="90" y="112" text-anchor="middle">2201</text><text class="sm" x="90" y="138" text-anchor="middle">想</text>
+    <circle class="hl" cx="290" cy="70" r="13"/><text class="lbl" x="290" y="40" text-anchor="middle">ReAct</text><text class="sm" x="290" y="112" text-anchor="middle">2210</text><text class="sm" x="290" y="138" text-anchor="middle">做</text>
+    <circle class="hl" cx="490" cy="70" r="13"/><text class="lbl" x="490" y="40" text-anchor="middle">Toolformer</text><text class="sm" x="490" y="112" text-anchor="middle">2302</text><text class="sm" x="490" y="138" text-anchor="middle">用工具</text>
+    <circle class="hl" cx="690" cy="70" r="13"/><text class="lbl" x="690" y="40" text-anchor="middle">Reflexion</text><text class="sm" x="690" y="112" text-anchor="middle">2303</text><text class="sm" x="690" y="138" text-anchor="middle">反省</text>
+    <circle class="hl" cx="890" cy="70" r="13"/><text class="lbl" x="890" y="40" text-anchor="middle">Generative Agents</text><text class="sm" x="890" y="112" text-anchor="middle">2304</text><text class="sm" x="890" y="138" text-anchor="middle">記憶</text>
+    <circle class="hl2" cx="1070" cy="70" r="13"/><text class="lbl" x="1070" y="40" text-anchor="middle">Survey</text><text class="sm" x="1070" y="112" text-anchor="middle">2308</text><text class="sm" x="1070" y="138" text-anchor="middle">整理</text>
+  </g>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Wei 2022 (CoT)，p.1</li><li><span>2</span>Yao 2022 (ReAct)，p.1</li><li><span>3</span>Schick 2023 (Toolformer)，p.1</li><li><span>4</span>Shinn 2023 (Reflexion)，p.1</li><li><span>5</span>Park 2023 (Generative Agents)，p.1</li><li><span>6</span>Wang 2023 (Survey)，p.1</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/comparisons/agent-framework-map.md" target="_blank">comparisons/agent-framework-map.md</a></div></footer></section>
+<section class="slide default" data-id="S02"><div class="content"><div class="text"><p class="kicker">問題</p>
+<h1>只會聊天的 LLM，哪裡不夠？</h1>
+<p>大模型很會做新任務，卻在<strong>算術、查事實</strong>這類基本功能上表現差 <sup class="cite" title="Schick 2023 (Toolformer) Abstract">1</sup>。</p>
+<ul><li><strong>不會精確計算</strong>、<strong>不知道現在是什麼時間</strong> <sup class="cite" title="Schick 2023 (Toolformer) §1">2</sup></li><li><strong>拿不到最新資訊</strong>，而且<strong>容易幻覺</strong>（hallucination）<sup class="cite" title="Schick 2023 (Toolformer) §1">2</sup></li><li>ReAct 的作者把只靠內部知識推理的做法（例如 CoT）形容成「靜態黑盒子」：不接觸外部世界，錯誤會沿著推理累積 <sup class="cite" title="Yao 2022 (ReAct) §1">3</sup></li></ul>
+<div class="callout">💡 後面的 ReAct 要補的正是這種能力：<strong>去外部取得資訊、觀察結果，再回饋給下一步</strong> <sup class="cite" title="Yao 2022 (ReAct) Abstract">4</sup>。</div></div></div><footer class="src"><ol><li><span>1</span>Schick 2023 (Toolformer)，Abstract</li><li><span>2</span>Schick 2023 (Toolformer)，§1</li><li><span>3</span>Yao 2022 (ReAct)，§1</li><li><span>4</span>Yao 2022 (ReAct)，Abstract</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/schick2023-toolformer.md" target="_blank">papers/schick2023-toolformer.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/yao2022-react.md" target="_blank">papers/yao2022-react.md</a></div></footer></section>
+<section class="slide split" data-id="S03"><div class="content"><div class="text"><p class="kicker">概念</p>
+<h1>Agent 的定義與四塊積木</h1>
+<p><strong>Agent</strong> 是位於環境之中、感知環境並對其行動的系統，長期追求自己的目標 <sup class="cite" title="Wang 2023 (Survey) §1">1</sup>。</p>
+<ul><li><strong>Profile</strong>：決定 agent 的角色</li><li><strong>Memory</strong>：記住過去的行為與觀察</li><li><strong>Planning</strong>：把複雜任務拆成子任務</li><li><strong>Action</strong>：把決策轉成具體輸出 <sup class="cite" title="Wang 2023 (Survey) §2.1">2</sup></li></ul>
+<div class="callout">💡 Profile 影響 Memory 和 Planning，三者一起影響 Action <sup class="cite" title="Wang 2023 (Survey) §2.1">2</sup>。</div></div><figure class="fig"><svg viewBox="0 0 520 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent 四模組">
+  <rect class="box2" x="160" y="20" width="200" height="70" rx="12"/><text class="lbl" x="260" y="52" text-anchor="middle">Profile</text><text class="sm" x="260" y="77" text-anchor="middle">角色</text>
+  <rect class="box" x="30" y="170" width="200" height="70" rx="12"/><text class="lbl" x="130" y="202" text-anchor="middle">Memory</text><text class="sm" x="130" y="227" text-anchor="middle">記憶</text>
+  <rect class="box" x="290" y="170" width="200" height="70" rx="12"/><text class="lbl" x="390" y="202" text-anchor="middle">Planning</text><text class="sm" x="390" y="227" text-anchor="middle">規劃</text>
+  <rect class="hl" x="160" y="310" width="200" height="70" rx="12"/><text class="on" x="260" y="342" text-anchor="middle">Action</text><text class="on" x="260" y="367" text-anchor="middle" style="font-size:16px;font-weight:400">行動</text>
+  <path class="arrow" d="M215 92 L150 166"/><path class="arrow" d="M305 92 L370 166"/>
+  <path class="arrow" d="M140 242 L210 306"/><path class="arrow" d="M380 242 L310 306"/>
+  <path class="arrowA" d="M260 383 L260 425"/>
+  <text class="sm" x="260" y="455" text-anchor="middle">對環境行動</text>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Wang 2023 (Survey)，§1</li><li><span>2</span>Wang 2023 (Survey)，§2.1</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/wang2023-agent-survey.md" target="_blank">papers/wang2023-agent-survey.md</a></div></footer></section>
+<section class="slide split" data-id="S04"><div class="content"><div class="text"><p class="kicker">例子 · Wei et al. 2022</p>
+<h1>第一步：先想再答（Chain-of-Thought）</h1>
+<p>在 prompt 的範例裡寫出<strong>一步一步的推理過程</strong>，模型就會跟著先推理再回答 <sup class="cite" title="Wei 2022 (CoT) §1">1</sup>。</p>
+<pre>A: Roger started with 5 balls.
+   2 cans of 3 tennis balls each
+   is 6 tennis balls. 5 + 6 = 11.
+   The answer is 11.</pre>
+<ul><li>PaLM 540B 在 GSM8K 數學題：<strong>17.9 → 56.9</strong> <sup class="cite" title="Wei 2022 (CoT) Table 2">2</sup></li><li>約 <strong>100B</strong> 參數以上才有效；小模型會寫出流暢但不合邏輯的推理 <sup class="cite" title="Wei 2022 (CoT) §3.2">3</sup></li></ul></div><figure class="fig"><svg viewBox="0 0 440 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GSM8K solve rate">
+  <text class="lbl" x="220" y="30" text-anchor="middle">GSM8K solve rate（%）</text>
+  <text class="sm" x="220" y="56" text-anchor="middle">PaLM 540B</text>
+  <line class="line" x1="40" y1="400" x2="400" y2="400"/>
+  <rect class="dim" x="80" y="345" width="110" height="55" rx="6"/>
+  <rect class="hl" x="250" y="225" width="110" height="175" rx="6"/>
+  <text class="lbl" x="135" y="333" text-anchor="middle">17.9</text>
+  <text class="lbl" x="305" y="213" text-anchor="middle" style="font-size:30px">56.9</text>
+  <text class="sm" x="135" y="430" text-anchor="middle">Standard</text>
+  <text class="sm" x="305" y="430" text-anchor="middle">Chain-of-Thought</text>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Wei 2022 (CoT)，§1</li><li><span>2</span>Wei 2022 (CoT)，Table 2</li><li><span>3</span>Wei 2022 (CoT)，§3.2</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/wei2022-chain-of-thought.md" target="_blank">papers/wei2022-chain-of-thought.md</a></div></footer></section>
+<section class="slide split" data-id="S05"><div class="content"><div class="text"><p class="kicker">概念 · Yao et al. 2022</p>
+<h1>第二步：邊想邊做（ReAct）</h1>
+<p>讓模型<strong>交錯</strong>產生想法和行動：想法用來擬定、調整計畫，行動去外部取得資訊，觀察結果再回饋給下一步 <sup class="cite" title="Yao 2022 (ReAct) Abstract">1</sup>。</p>
+<ul><li><strong>Thought</strong>：拆解目標、從觀察中抽重點、處理例外 <sup class="cite" title="Yao 2022 (ReAct) §2">2</sup></li><li><strong>Action</strong>：查 Wikipedia 只有三個動作 <code>search</code>、<code>lookup</code>、<code>finish</code> <sup class="cite" title="Yao 2022 (ReAct) §3.1">3</sup></li><li><strong>Observation</strong>：外部回傳的結果，成為下一個 Thought 的依據 <sup class="cite" title="Yao 2022 (ReAct) Abstract">1</sup></li></ul></div><figure class="fig"><svg viewBox="0 0 500 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ReAct 迴圈">
+  <rect class="hl" x="150" y="20" width="200" height="80" rx="40"/><text class="on" x="250" y="56" text-anchor="middle">Thought</text><text class="on" x="250" y="82" text-anchor="middle" style="font-size:16px;font-weight:400">想：下一步做什麼</text>
+  <rect class="box" x="290" y="250" width="190" height="80" rx="40"/><text class="lbl" x="385" y="286" text-anchor="middle">Action</text><text class="sm" x="385" y="311" text-anchor="middle">做：search / lookup</text>
+  <rect class="box2" x="20" y="250" width="190" height="80" rx="40"/><text class="lbl" x="115" y="286" text-anchor="middle">Observation</text><text class="sm" x="115" y="311" text-anchor="middle">看：回傳結果</text>
+  <path class="arrowA" d="M330 100 Q 400 160 388 244"/>
+  <path class="arrowA" d="M288 300 L 216 300"/>
+  <path class="arrowA" d="M112 246 Q 100 160 168 104"/>
+  <rect class="dim" x="300" y="380" width="170" height="56" rx="8"/><text class="lbl" x="385" y="415" text-anchor="middle" style="font-size:18px">Wikipedia</text>
+  <path class="arrow" d="M385 334 L385 376"/>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Yao 2022 (ReAct)，Abstract</li><li><span>2</span>Yao 2022 (ReAct)，§2</li><li><span>3</span>Yao 2022 (ReAct)，§3.1</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/yao2022-react.md" target="_blank">papers/yao2022-react.md</a></div></footer></section>
+<section class="slide default" data-id="S06"><div class="content"><div class="text"><p class="kicker">比較 · ReAct 論文的同一組實驗</p>
+<h1>只想、只做、邊想邊做：誰比較好？</h1>
+<table><thead><tr><th></th><th>CoT（只想）</th><th>Act（只做）</th><th>ReAct（邊想邊做）</th></tr></thead><tbody><tr><td>查外部資料 <sup class="cite" title="Yao 2022 (ReAct) §1">1</sup></td><td>✗ 只用內部知識</td><td>✓</td><td>✓</td></tr><tr><td>寫出推理 <sup class="cite" title="Yao 2022 (ReAct) §3.2">2</sup></td><td>✓</td><td>✗</td><td>✓</td></tr><tr><td>HotpotQA 主要失敗原因 <sup class="cite" title="Yao 2022 (ReAct) Table 2">3</sup></td><td>幻覺 56%</td><td>–</td><td>推理錯誤 47%</td></tr></tbody></table>
+<ul><li>查外部資料能減少幻覺：HotpotQA 的失敗案例中 ReAct 幻覺 <strong>0%</strong>，CoT <strong>56%</strong> <sup class="cite" title="Yao 2022 (ReAct) Table 2">3</sup></li><li>沒有一種方法全面勝出：HotpotQA 上 CoT 略好，FEVER 上 ReAct 較好 <sup class="cite" title="Yao 2022 (ReAct) §3.3">4</sup></li><li>失敗方式互補，所以作者把 ReAct 和 CoT-SC 結合，兩個任務都拿到最佳成績 <sup class="cite" title="Yao 2022 (ReAct) Table 1">5</sup></li></ul></div></div><footer class="src"><ol><li><span>1</span>Yao 2022 (ReAct)，§1</li><li><span>2</span>Yao 2022 (ReAct)，§3.2</li><li><span>3</span>Yao 2022 (ReAct)，Table 2</li><li><span>4</span>Yao 2022 (ReAct)，§3.3</li><li><span>5</span>Yao 2022 (ReAct)，Table 1</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/comparisons/cot-vs-react.md" target="_blank">comparisons/cot-vs-react.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/concepts/tool-use.md" target="_blank">concepts/tool-use.md</a></div></footer></section>
+<section class="slide default" data-id="S07"><div class="content"><div class="text"><p class="kicker">例子 · Schick et al. 2023</p>
+<h1>第三步：學會用工具（Toolformer）</h1>
+<p>模型<strong>自己學會</strong>在句子裡插入 API 呼叫：計算機、問答系統、Wikipedia 搜尋、翻譯、日曆 <sup class="cite" title="Schick 2023 (Toolformer) Abstract">1</sup>。</p>
+<pre>Out of 1400 participants, 400 (or [Calculator(400 / 1400) → 0.29] 29%) passed the test.</pre>
+<ul><li>只保留「讓模型更好預測下文」的呼叫 <sup class="cite" title="Schick 2023 (Toolformer) §2">2</sup>，再用這些資料 finetune <sup class="cite" title="Schick 2023 (Toolformer) §2">2</sup></li><li>數學題 ASDiv：Toolformer <strong>40.4</strong>，約大 25 倍的 GPT-3 只有 <strong>14.0</strong> <sup class="cite" title="Schick 2023 (Toolformer) Table 4；Schick 2023 (Toolformer) §4.1">3,4</sup></li><li>限制：每個輸入最多呼叫一次 <sup class="cite" title="Schick 2023 (Toolformer) §4.2">5</sup>，不能串接工具，也不能改寫查詢 <sup class="cite" title="Schick 2023 (Toolformer) §7">6</sup></li></ul></div></div><footer class="src"><ol><li><span>1</span>Schick 2023 (Toolformer)，Abstract</li><li><span>2</span>Schick 2023 (Toolformer)，§2</li><li><span>3</span>Schick 2023 (Toolformer)，Table 4</li><li><span>4</span>Schick 2023 (Toolformer)，§4.1</li><li><span>5</span>Schick 2023 (Toolformer)，§4.2</li><li><span>6</span>Schick 2023 (Toolformer)，§7</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/schick2023-toolformer.md" target="_blank">papers/schick2023-toolformer.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/concepts/tool-use.md" target="_blank">concepts/tool-use.md</a></div></footer></section>
+<section class="slide split" data-id="S08"><div class="content"><div class="text"><p class="kicker">概念 · Shinn et al. 2023</p>
+<h1>第四步：從失敗中學習（Reflexion）</h1>
+<p>失敗後用<strong>文字反省</strong>「哪裡做錯、下次怎麼做」，存進記憶再試一次——<strong>不用更新模型權重</strong> <sup class="cite" title="Shinn 2023 (Reflexion) Abstract">1</sup>。</p>
+<ul><li><strong>Actor</strong> 行動 → <strong>Evaluator</strong> 打分數 → <strong>Self-Reflection</strong> 寫反省 <sup class="cite" title="Shinn 2023 (Reflexion) §3">2</sup></li><li>ALFWorld 134 個環境完成 <strong>130</strong> 個 <sup class="cite" title="Shinn 2023 (Reflexion) §4.1">3</sup></li><li>寫程式 HumanEval：<strong>91.0</strong>（GPT-4 為 80.1）<sup class="cite" title="Shinn 2023 (Reflexion) Table 1">4</sup></li><li>小模型反省不起來：starchat-beta <strong>0.26 → 0.26</strong> <sup class="cite" title="Shinn 2023 (Reflexion) Table 4">5</sup></li></ul></div><figure class="fig"><svg viewBox="0 0 500 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Reflexion 迴圈">
+  <rect class="hl" x="160" y="20" width="180" height="76" rx="12"/><text class="on" x="250" y="54" text-anchor="middle">Actor</text><text class="on" x="250" y="80" text-anchor="middle" style="font-size:16px;font-weight:400">嘗試（CoT／ReAct）</text>
+  <rect class="box" x="300" y="200" width="180" height="76" rx="12"/><text class="lbl" x="390" y="234" text-anchor="middle">Evaluator</text><text class="sm" x="390" y="260" text-anchor="middle">打分數</text>
+  <rect class="box2" x="160" y="380" width="180" height="76" rx="12"/><text class="lbl" x="250" y="414" text-anchor="middle">Self-Reflection</text><text class="sm" x="250" y="440" text-anchor="middle">寫文字反省</text>
+  <rect class="box" x="20" y="200" width="180" height="76" rx="12"/><text class="lbl" x="110" y="234" text-anchor="middle">Memory</text><text class="sm" x="110" y="260" text-anchor="middle">存反省</text>
+  <path class="arrowA" d="M300 98 L370 196"/>
+  <path class="arrowA" d="M370 280 L300 376"/>
+  <path class="arrowA" d="M200 376 L130 280"/>
+  <path class="arrowA" d="M130 196 L200 100"/>
+  <text class="sm" x="250" y="246" text-anchor="middle">失敗就</text><text class="sm" x="250" y="268" text-anchor="middle">再試一次</text>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Shinn 2023 (Reflexion)，Abstract</li><li><span>2</span>Shinn 2023 (Reflexion)，§3</li><li><span>3</span>Shinn 2023 (Reflexion)，§4.1</li><li><span>4</span>Shinn 2023 (Reflexion)，Table 1</li><li><span>5</span>Shinn 2023 (Reflexion)，Table 4</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/shinn2023-reflexion.md" target="_blank">papers/shinn2023-reflexion.md</a></div></footer></section>
+<section class="slide split" data-id="S09"><div class="content"><div class="text"><p class="kicker">概念 · Generative Agents（Park et al. 2023）</p>
+<h1>第五步：記憶、反思與計畫</h1>
+<p>LLM 打造的 25 個虛擬居民住在小鎮 Smallville <sup class="cite" title="Park 2023 (Generative Agents) Abstract">1</sup>。</p>
+<ul><li><strong>記憶流</strong>：用自然語言記下所有經歷 <sup class="cite" title="Park 2023 (Generative Agents) §4.1">2</sup></li><li><strong>挑記憶</strong>：三個分數加權排序（見右圖） <sup class="cite" title="Park 2023 (Generative Agents) §4.1">2</sup></li><li><strong>反思</strong>：把大量觀察歸納成高層推論 <sup class="cite" title="Park 2023 (Generative Agents) §4.2">3</sup></li><li><strong>計畫</strong>：沒有計畫時，Klaus 會在 12 點、12 點半、1 點各吃一次午餐 <sup class="cite" title="Park 2023 (Generative Agents) §4.3">4</sup></li></ul>
+<div class="callout">⚠ 這裡的「反思」是歸納，不是針對失敗的反省 <sup class="cite" title="Park 2023 (Generative Agents) §4.2">3</sup></div></div><figure class="fig"><svg viewBox="0 0 470 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="記憶流檢索">
+  <text class="lbl" x="20" y="30">記憶流（自然語言記錄所有經歷）</text>
+  <rect class="box" x="20" y="45" width="430" height="44" rx="8"/><text class="sm" x="36" y="74">冰箱是空的</text>
+  <rect class="box" x="20" y="97" width="430" height="44" rx="8"/><text class="sm" x="36" y="126">⋯</text>
+  <rect class="box" x="20" y="149" width="430" height="44" rx="8"/><text class="sm" x="36" y="178">⋯</text>
+  <path class="arrowA" d="M235 200 L235 246"/>
+  <rect class="dim" x="20" y="254" width="430" height="120" rx="10"/>
+  <text class="lbl" x="235" y="288" text-anchor="middle" style="font-size:19px">三個分數加權排序</text>
+  <text class="sm" x="85" y="326" text-anchor="middle">recency</text><text class="sm" x="85" y="352" text-anchor="middle">多近</text>
+  <text class="sm" x="235" y="326" text-anchor="middle">importance</text><text class="sm" x="235" y="352" text-anchor="middle">多重要</text>
+  <text class="sm" x="385" y="326" text-anchor="middle">relevance</text><text class="sm" x="385" y="352" text-anchor="middle">多相關</text>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Park 2023 (Generative Agents)，Abstract</li><li><span>2</span>Park 2023 (Generative Agents)，§4.1</li><li><span>3</span>Park 2023 (Generative Agents)，§4.2</li><li><span>4</span>Park 2023 (Generative Agents)，§4.3</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/park2023-generative-agents.md" target="_blank">papers/park2023-generative-agents.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/concepts/self-reflection.md" target="_blank">concepts/self-reflection.md</a></div></footer></section>
+<section class="slide split" data-id="S10"><div class="content"><div class="text"><p class="kicker">例子 · Generative Agents 的小鎮模擬</p>
+<h1>25 個 agent 的小鎮發生了什麼？</h1>
+<ul><li>兩個遊戲日的模擬中，知道情人節派對的 agent 從 1 個（<strong>4%</strong>）增加到 13 個（<strong>52%</strong>），全程沒有使用者介入 <sup class="cite" title="Park 2023 (Generative Agents) §7.1.2">1</sup></li><li>被邀請的 12 個 agent 中，有 <strong>5</strong> 個準時出現 <sup class="cite" title="Park 2023 (Generative Agents) §7.1.2">1</sup></li><li>100 位受試者評比回答「像不像真人」（TrueSkill）：完整架構 <strong>29.89</strong>；沒有記憶、反思、計畫只有 <strong>21.21</strong> <sup class="cite" title="Park 2023 (Generative Agents) §6.1；Park 2023 (Generative Agents) §6.5.1">2,3</sup></li><li>但會<strong>加油添醋</strong>：把鄰居 Adam Smith 說成寫《國富論》的人 <sup class="cite" title="Park 2023 (Generative Agents) §6.5.2">4</sup></li></ul></div><figure class="fig"><svg viewBox="0 0 440 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="派對消息擴散">
+  <text class="lbl" x="220" y="30" text-anchor="middle">知道情人節派對的 agent</text>
+  <line class="line" x1="40" y1="330" x2="400" y2="330"/>
+  <rect class="dim" x="80" y="318" width="110" height="12" rx="4"/>
+  <rect class="hl" x="250" y="160" width="110" height="170" rx="6"/>
+  <text class="lbl" x="135" y="304" text-anchor="middle">4%</text>
+  <text class="lbl" x="305" y="148" text-anchor="middle" style="font-size:30px">52%</text>
+  <text class="sm" x="135" y="358" text-anchor="middle">開始</text>
+  <text class="sm" x="305" y="358" text-anchor="middle">兩個遊戲日後</text>
+  <text class="sm" x="220" y="410" text-anchor="middle">被邀請 12 個，準時赴約 5 個</text>
+  <g><circle class="hl2" cx="120" cy="442" r="10"/><circle class="hl2" cx="145" cy="442" r="10"/><circle class="hl2" cx="170" cy="442" r="10"/><circle class="hl2" cx="195" cy="442" r="10"/><circle class="hl2" cx="220" cy="442" r="10"/><circle class="dim" cx="245" cy="442" r="10"/><circle class="dim" cx="270" cy="442" r="10"/><circle class="dim" cx="295" cy="442" r="10"/><circle class="dim" cx="320" cy="442" r="10"/><circle class="dim" cx="345" cy="442" r="10"/><circle class="dim" cx="370" cy="442" r="10"/><circle class="dim" cx="395" cy="442" r="10"/></g>
+</svg>
+</figure></div><footer class="src"><ol><li><span>1</span>Park 2023 (Generative Agents)，§7.1.2</li><li><span>2</span>Park 2023 (Generative Agents)，§6.1</li><li><span>3</span>Park 2023 (Generative Agents)，§6.5.1</li><li><span>4</span>Park 2023 (Generative Agents)，§6.5.2</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/park2023-generative-agents.md" target="_blank">papers/park2023-generative-agents.md</a></div></footer></section>
+<section class="slide default" data-id="S11"><div class="content"><div class="text"><p class="kicker">比較 · 用 Survey 的四模組整理</p>
+<h1>把五篇論文放回四塊積木</h1>
+<table><thead><tr><th>論文</th><th>主要補強的模組</th><th>做法</th></tr></thead><tbody><tr><td>CoT</td><td>Planning（無回饋）<sup class="cite" title="Wang 2023 (Survey) §2.1.3">1</sup></td><td>範例寫出推理步驟 <sup class="cite" title="Wei 2022 (CoT) §1">2</sup></td></tr><tr><td>ReAct</td><td>Planning（環境回饋）＋Action <sup class="cite" title="Wang 2023 (Survey) §2.1.3">1</sup></td><td>Thought→Action→Observation <sup class="cite" title="Yao 2022 (ReAct) §2">3</sup></td></tr><tr><td>Toolformer</td><td>Action（工具）<sup class="cite" title="Wang 2023 (Survey) §2.1.4">4</sup></td><td>自己學會何時呼叫 API <sup class="cite" title="Schick 2023 (Toolformer) §2">5</sup></td></tr><tr><td>Reflexion</td><td>Planning（模型回饋）＋Memory <sup class="cite" title="Wang 2023 (Survey) §2.1.2">6</sup></td><td>失敗後寫反省存進記憶 <sup class="cite" title="Shinn 2023 (Reflexion) §3">7</sup></td></tr><tr><td>Generative Agents</td><td>Profile＋Memory＋Planning <sup class="cite" title="Wang 2023 (Survey) §2.1.1；Wang 2023 (Survey) §2.1.2">8,6</sup></td><td>記憶流、反思、日程計畫 <sup class="cite" title="Park 2023 (Generative Agents) §4">9</sup></td></tr></tbody></table>
+<ul><li>後面的論文把前面的當<strong>零件</strong>：Reflexion 的 Actor 用 CoT 和 ReAct <sup class="cite" title="Shinn 2023 (Reflexion) §3">7</sup></li></ul>
+<div class="callout">※「想 → 做 → 工具 → 反省 → 記憶」是本簡報的整理順序，不是論文的結論。</div></div></div><footer class="src"><ol><li><span>1</span>Wang 2023 (Survey)，§2.1.3</li><li><span>2</span>Wei 2022 (CoT)，§1</li><li><span>3</span>Yao 2022 (ReAct)，§2</li><li><span>4</span>Wang 2023 (Survey)，§2.1.4</li><li><span>5</span>Schick 2023 (Toolformer)，§2</li><li><span>6</span>Wang 2023 (Survey)，§2.1.2</li><li><span>7</span>Shinn 2023 (Reflexion)，§3</li><li><span>8</span>Wang 2023 (Survey)，§2.1.1</li><li><span>9</span>Park 2023 (Generative Agents)，§4</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/comparisons/agent-framework-map.md" target="_blank">comparisons/agent-framework-map.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/concepts/planning.md" target="_blank">concepts/planning.md</a></div></footer></section>
+<section class="slide default" data-id="S12"><div class="content"><div class="text"><p class="kicker">挑戰</p>
+<h1>Agent 還沒解決的問題</h1>
+<ul><li><strong>幻覺</strong>：agent 也會很有自信地產生錯誤資訊，例如寫出錯誤的程式 <sup class="cite" title="Wang 2023 (Survey) §6">1</sup></li><li><strong>效率</strong>：每個動作可能要呼叫 LLM 好幾次，推論速度慢 <sup class="cite" title="Wang 2023 (Survey) §6">1</sup>；模擬 25 個 agent 兩天就花了數千美元 <sup class="cite" title="Park 2023 (Generative Agents) §8.2">2</sup></li><li><strong>Prompt 穩健性</strong>：各模組的 prompt 互相影響，換模型又要重調 <sup class="cite" title="Wang 2023 (Survey) §6">1</sup></li><li><strong>需要夠強的模型</strong>：小模型用 Reflexion 沒有進步 <sup class="cite" title="Shinn 2023 (Reflexion) Table 4">3</sup></li><li><strong>角色扮演</strong>：網路上少見或新出現的角色，LLM 演不好 <sup class="cite" title="Wang 2023 (Survey) §6">1</sup></li></ul></div></div><footer class="src"><ol><li><span>1</span>Wang 2023 (Survey)，§6</li><li><span>2</span>Park 2023 (Generative Agents)，§8.2</li><li><span>3</span>Shinn 2023 (Reflexion)，Table 4</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/wang2023-agent-survey.md" target="_blank">papers/wang2023-agent-survey.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/shinn2023-reflexion.md" target="_blank">papers/shinn2023-reflexion.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/park2023-generative-agents.md" target="_blank">papers/park2023-generative-agents.md</a></div></footer></section>
+<section class="slide default" data-id="S13"><div class="content"><div class="text"><p class="kicker">小結</p>
+<h1>一句話記住 AI Agent</h1>
+<p><strong>Agent</strong>：感知環境、對環境行動、長期追求目標的系統 <sup class="cite" title="Wang 2023 (Survey) §1">1</sup>。</p>
+<p>Survey 把 LLM-based agent 整理成 Profile、Memory、Planning、Action 四塊積木 <sup class="cite" title="Wang 2023 (Survey) §2.1">2</sup>：</p>
+<table><thead><tr><th>這一步</th><th>論文</th><th>一句話</th></tr></thead><tbody><tr><td>想</td><td>CoT</td><td>範例裡寫出推理步驟 <sup class="cite" title="Wei 2022 (CoT) §1">3</sup></td></tr><tr><td>做</td><td>ReAct</td><td>Thought→Action→Observation <sup class="cite" title="Yao 2022 (ReAct) §2">4</sup></td></tr><tr><td>用工具</td><td>Toolformer</td><td>自己學會何時呼叫 API <sup class="cite" title="Schick 2023 (Toolformer) §2">5</sup></td></tr><tr><td>反省</td><td>Reflexion</td><td>失敗後寫反省，存進記憶 <sup class="cite" title="Shinn 2023 (Reflexion) §3">6</sup></td></tr><tr><td>記憶</td><td>Generative Agents</td><td>記憶流、反思、日程計畫 <sup class="cite" title="Park 2023 (Generative Agents) §4">7</sup></td></tr></tbody></table></div></div><footer class="src"><ol><li><span>1</span>Wang 2023 (Survey)，§1</li><li><span>2</span>Wang 2023 (Survey)，§2.1</li><li><span>3</span>Wei 2022 (CoT)，§1</li><li><span>4</span>Yao 2022 (ReAct)，§2</li><li><span>5</span>Schick 2023 (Toolformer)，§2</li><li><span>6</span>Shinn 2023 (Reflexion)，§3</li><li><span>7</span>Park 2023 (Generative Agents)，§4</li></ol><div class="wikis">本頁依據的 wiki 頁：<a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/papers/wang2023-agent-survey.md" target="_blank">papers/wang2023-agent-survey.md</a> · <a href="https://github.com/Dipo221/agent-llm-wiki/blob/main/wiki/comparisons/agent-framework-map.md" target="_blank">comparisons/agent-framework-map.md</a></div></footer></section>
+</div>
+<div id="nav"><div id="bar"></div></div>
+<pre id="check-result" hidden></pre>
+<script>
+const q = new URLSearchParams(location.search);
+const slides = [...document.querySelectorAll('.slide')];
+let cur = Math.max(0, Math.min(slides.length - 1, (parseInt(q.get('slide')) || parseInt(location.hash.slice(1)) || 1) - 1));
+function setTheme(t){document.body.dataset.theme=t;document.querySelectorAll('#ui button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));try{localStorage.setItem('deck-theme',t)}catch(e){}}
+function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+  document.getElementById('count').textContent=`${cur+1} / ${slides.length}`;document.getElementById('bar').style.width=`${(cur+1)/slides.length*100}%`;history.replaceState(null,'',location.pathname+location.search+'#'+(cur+1))}
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*(q.has('check')?1:0.96);document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`}
+document.querySelectorAll('#ui button').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(cur+1);if(['ArrowLeft','PageUp'].includes(e.key))show(cur-1);if(e.key==='f')document.documentElement.requestFullscreen?.()});
+document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX>innerWidth/2?cur+1:cur-1)});
+addEventListener('resize',fit);
+let saved=null;try{saved=localStorage.getItem('deck-theme')}catch(e){}
+setTheme(q.get('theme')||saved||'tech');
+if(q.has('noui'))document.body.classList.add('noui');
+fit();show(cur);
+/* 檢查模式（G5 用）：逐頁量測內容與頁尾有沒有超出版面 */
+if(q.has('check')){
+  const run=()=>{const start=cur,res=[];slides.forEach((s,k)=>{show(k);const c=s.querySelector('.content'),f=s.querySelector('footer'),sr=s.getBoundingClientRect();
+    const over=c.scrollHeight-c.clientHeight,overW=c.scrollWidth-c.clientWidth;const fb=f.getBoundingClientRect().bottom-sr.bottom;
+    const imgs=[...s.querySelectorAll('figure svg')].filter(v=>v.getBoundingClientRect().height<20).length;
+    res.push({slide:s.dataset.id,overflowY:Math.max(0,over),overflowX:Math.max(0,overW),footerOut:Math.max(0,Math.round(fb)),emptyFigures:imgs})});
+    const out=document.getElementById('check-result');out.textContent=JSON.stringify({theme:document.body.dataset.theme,fonts:document.fonts.status+' ('+[...document.fonts].filter(f=>f.status==='loaded').length+'/'+document.fonts.size+' faces, waited '+tries+')',slides:res});show(start);};
+  document.body.classList.add('measure-all');void document.body.offsetHeight;
+  let tries=0;const wait=()=>{if((document.fonts.status==='loaded'&&tries>4)||tries>120){document.body.classList.remove('measure-all');setTimeout(run,200)}else{tries++;setTimeout(wait,250)}};
+  document.fonts.ready.then(wait);
+}
+</script>
+</body>
+</html>

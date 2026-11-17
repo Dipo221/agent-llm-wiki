@@ -2,6 +2,13 @@
 
 > 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
 
+## 2026-11-17 修正：由簡報流程 G4 AI 審查回溯到 wiki
+- 簡報 runs/ai-agents-intro 的 AI 審查（reviews/round1.md）提出「卡片疑慮」，對照原文後確認 3 處問題出在 wiki 本身：
+  - comparisons/cot-vs-react.md：「Act 會查外部資料」只引 §1，但 Act baseline 在 §3.2 才定義 → 補 [@yao2022-react, §3.2]。
+  - comparisons/agent-framework-map.md：Generative Agents 列只引 Survey §2.1.1（Profile），卻支持 Profile＋Memory → 補 §2.1.2。
+  - benchmarks/humaneval.md：寫成「Reflexion（GPT-4）」，但 Table 1 沒有明寫底層模型，是推論 → 改寫；papers/shinn2023-reflexion.md 補註 Table 3 才明寫 GPT-4。
+- 學到：lint 只檢查「出處存在、數字找得到」，檢查不出「出處對到錯的章節」和「沒寫明的推論」。
+
 ## 2026-11-17 ingest：wang2023-agent-survey
 - 新增：papers/wang2023-agent-survey.md、concepts/planning.md、comparisons/agent-framework-map.md
 - 更新：concepts/agent-memory.md、concepts/tool-use.md、concepts/chain-of-thought.md、index.md

@@ -1,0 +1,11 @@
+<svg viewBox="0 0 1150 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="六篇論文時間線">
+  <line class="line" x1="40" y1="70" x2="1110" y2="70" style="stroke-width:4"/>
+  <g>
+    <circle class="hl" cx="90" cy="70" r="13"/><text class="lbl" x="90" y="40" text-anchor="middle">CoT</text><text class="sm" x="90" y="112" text-anchor="middle">2201</text><text class="sm" x="90" y="138" text-anchor="middle">想</text>
+    <circle class="hl" cx="290" cy="70" r="13"/><text class="lbl" x="290" y="40" text-anchor="middle">ReAct</text><text class="sm" x="290" y="112" text-anchor="middle">2210</text><text class="sm" x="290" y="138" text-anchor="middle">做</text>
+    <circle class="hl" cx="490" cy="70" r="13"/><text class="lbl" x="490" y="40" text-anchor="middle">Toolformer</text><text class="sm" x="490" y="112" text-anchor="middle">2302</text><text class="sm" x="490" y="138" text-anchor="middle">用工具</text>
+    <circle class="hl" cx="690" cy="70" r="13"/><text class="lbl" x="690" y="40" text-anchor="middle">Reflexion</text><text class="sm" x="690" y="112" text-anchor="middle">2303</text><text class="sm" x="690" y="138" text-anchor="middle">反省</text>
+    <circle class="hl" cx="890" cy="70" r="13"/><text class="lbl" x="890" y="40" text-anchor="middle">Generative Agents</text><text class="sm" x="890" y="112" text-anchor="middle">2304</text><text class="sm" x="890" y="138" text-anchor="middle">記憶</text>
+    <circle class="hl2" cx="1070" cy="70" r="13"/><text class="lbl" x="1070" y="40" text-anchor="middle">Survey</text><text class="sm" x="1070" y="112" text-anchor="middle">2308</text><text class="sm" x="1070" y="138" text-anchor="middle">整理</text>
+  </g>
+</svg>

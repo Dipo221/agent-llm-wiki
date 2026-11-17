@@ -50,6 +50,7 @@ Agent 失敗後**用文字反省**「哪裡做錯、下次怎麼做」，把反�
 - **常見錯誤**：agent 以為自己拿到某個物品，其實沒有，接著在長軌跡中一錯到底；反省能把長軌跡濃縮成「下次的提示」[@shinn2023-reflexion, §4.1]。
 - **HotpotQA**：baseline（ReAct-only、CoT-only）在後續嘗試中完全沒有解出第一次失敗的題目；Reflexion 會持續重試，直到同一題連續失敗 3 次 [@shinn2023-reflexion, §4.2]。
 - **Ablation（HotpotQA）**：只給「上一次的軌跡」（episodic memory）不夠，加上自我反省再多 8% [@shinn2023-reflexion, §4.2]。
+- Table 1 只把 GPT-4 列為比較對象（SOTA），沒有明寫 Reflexion 這一欄用的底層模型；消融實驗（Table 3）則註明以 GPT-4 為底層模型 [@shinn2023-reflexion, Table 3]。
 - **Ablation（HumanEval Rust 最難 50 題）**：拿掉 test generation 只剩 52%（比 baseline 的 60% 還差）；拿掉自我反省則沒有進步（60%）；兩者都有才到 0.68 [@shinn2023-reflexion, Table 3]。
 
 > ⚠ 說法不一致：同一篇論文對 GPT-4 在 HumanEval Python 的 baseline 有三種寫法——摘要寫 80% [@shinn2023-reflexion, Abstract]，Table 1 寫 80.1 [@shinn2023-reflexion, Table 1]，§4.3 分析段落寫 82% [@shinn2023-reflexion, §4.3]。可能原因：80% 是 80.1 的四捨五入；82% 可能來自另一次執行或不同設定，論文沒有說明。引用時以 Table 1 為準並註明來源。

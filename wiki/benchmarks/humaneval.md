@@ -22,6 +22,6 @@ updated: 2026-11-17
 |---|---|---|---|
 | [Reflexion](../papers/shinn2023-reflexion.md) | CodeT + GPT-3.5（先前最佳） | 65.8 | [@shinn2023-reflexion, Table 1] |
 | [Reflexion](../papers/shinn2023-reflexion.md) | GPT-4 | 80.1 | [@shinn2023-reflexion, Table 1] |
-| [Reflexion](../papers/shinn2023-reflexion.md) | Reflexion（GPT-4） | 91.0 | [@shinn2023-reflexion, Table 1] |
+| [Reflexion](../papers/shinn2023-reflexion.md) | Reflexion（Table 1 沒有明寫底層模型） | 91.0 | [@shinn2023-reflexion, Table 1] |
 
 GPT-4 baseline 在同一篇論文有 80%／80.1／82% 三種寫法，見 [Reflexion 論文頁](../papers/shinn2023-reflexion.md) 的 ⚠ 區塊 [@shinn2023-reflexion, Abstract／Table 1／§4.3]。
