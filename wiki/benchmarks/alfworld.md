@@ -1,8 +1,8 @@
 ---
 type: benchmark
 title: ALFWorld（文字版居家任務遊戲）
-sources: [yao2022-react]
-related: [papers/yao2022-react.md, concepts/reasoning-and-acting.md, benchmarks/webshop.md]
+sources: [yao2022-react, shinn2023-reflexion]
+related: [papers/yao2022-react.md, papers/shinn2023-reflexion.md, concepts/reasoning-and-acting.md, benchmarks/webshop.md]
 updated: 2026-11-17
 ---
 
@@ -26,3 +26,5 @@ updated: 2026-11-17
 | [ReAct](../papers/yao2022-react.md) | Act（best of 6） | 45 | [@yao2022-react, Table 3] |
 | [ReAct](../papers/yao2022-react.md) | ReAct-IM（best of 6） | 53 | [@yao2022-react, Table 3] |
 | [ReAct](../papers/yao2022-react.md) | ReAct（best of 6） | 71 | [@yao2022-react, Table 3] |
+
+[Reflexion](../papers/shinn2023-reflexion.md) 用 GPT-3 當 ReAct 的模型，加上自我反省後在 134 個環境中完成 130 個 [@shinn2023-reflexion, §4.1]。模型和評估方式（多次嘗試）都和 ReAct 論文不同，數字不能直接比較。

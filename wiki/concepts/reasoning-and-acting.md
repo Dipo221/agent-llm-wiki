@@ -33,5 +33,6 @@ updated: 2026-11-17
 ## 相關頁面
 
 - [Tool use](tool-use.md)
+- [Self-reflection](self-reflection.md)
 - [CoT vs ReAct](../comparisons/cot-vs-react.md)
 - [ALFWorld](../benchmarks/alfworld.md)、[HotpotQA](../benchmarks/hotpotqa.md)

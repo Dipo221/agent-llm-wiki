@@ -88,4 +88,5 @@ updated: 2026-11-17
 - 把 [CoT](wei2022-chain-of-thought.md) 當「只推理」baseline，並和它結合（ReAct ↔ CoT-SC）。比較見 [CoT vs ReAct](../comparisons/cot-vs-react.md)。
 - 概念見 [Reasoning and Acting](../concepts/reasoning-and-acting.md)、[Few-shot prompting](../concepts/few-shot-prompting.md)。
 - 同樣讓模型使用工具的 [Toolformer](schick2023-toolformer.md) 改用 finetune、每次最多一個呼叫；比較見 [Tool use](../concepts/tool-use.md)。
+- [Reflexion](shinn2023-reflexion.md) 把 ReAct 當 Actor，失敗後加上文字反省再重試，針對 ReAct「卡在重複迴圈」的問題。
 - Benchmark：[HotpotQA](../benchmarks/hotpotqa.md)、[FEVER](../benchmarks/fever.md)、[ALFWorld](../benchmarks/alfworld.md)、[WebShop](../benchmarks/webshop.md)。

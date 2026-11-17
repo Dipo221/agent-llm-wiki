@@ -2,6 +2,13 @@
 
 > 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
 
+## 2026-11-17 ingest：shinn2023-reflexion
+- 新增：papers/shinn2023-reflexion.md、concepts/self-reflection.md、benchmarks/humaneval.md
+- 更新：benchmarks/alfworld.md、benchmarks/hotpotqa.md（補 Reflexion 結果並註明不可直接比較）、papers/yao2022-react.md、concepts/reasoning-and-acting.md、index.md
+- **矛盾**：shinn2023-reflexion.md——GPT-4 在 HumanEval Python 的 baseline，摘要 80%、Table 1 80.1、§4.3 82%（同一篇論文內）。並列＋⚠，引用以 Table 1 為準。
+- lint 第 1 次：1 個問題——humaneval.md 提到 80%／80.1／82% 但沒附出處，補上後通過。
+- 注意：Reflexion 的 HotpotQA／ALFWorld 數字（100 題、多次嘗試、GPT 系列模型）和 ReAct 論文（全部題目、單次、PaLM）設定不同，benchmark 頁已加註「不能直接比較」。
+
 ## 2026-11-17 ingest：schick2023-toolformer
 - 新增：papers/schick2023-toolformer.md、concepts/tool-use.md、benchmarks/math-word-problems.md
 - 更新：papers/yao2022-react.md（連到 Toolformer）、concepts/few-shot-prompting.md（zero-shot 對照）、concepts/reasoning-and-acting.md、benchmarks/gsm8k.md、index.md
