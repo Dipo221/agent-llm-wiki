@@ -34,3 +34,4 @@ Chain of thought 是「一連串導向最終答案的自然語言中間推理步
 - [Reasoning and Acting](reasoning-and-acting.md)
 - [CoT vs ReAct](../comparisons/cot-vs-react.md)
 - [GSM8K](../benchmarks/gsm8k.md)
+- [Planning](planning.md)：Survey 把 CoT 歸為「沒有回饋的 single-path 規劃」

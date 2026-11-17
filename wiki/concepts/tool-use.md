@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Tool use（工具使用）
-sources: [schick2023-toolformer, yao2022-react]
+sources: [schick2023-toolformer, yao2022-react, wang2023-agent-survey]
 related: [papers/schick2023-toolformer.md, papers/yao2022-react.md, concepts/reasoning-and-acting.md]
 updated: 2026-11-17
 ---
@@ -11,6 +11,8 @@ updated: 2026-11-17
 ## 定義
 
 讓語言模型呼叫外部工具（搜尋引擎、計算機、日曆、翻譯等），彌補它拿不到最新資訊、容易幻覺、不會精確計算、不知道時間等先天限制 [@schick2023-toolformer, §1]。
+
+Survey 把 agent 的動作空間分成「外部工具」和「LLM 內部知識」兩類；使用外部工具是為了彌補 LLM 缺乏專業知識和幻覺的問題 [@wang2023-agent-survey, §2.1.4]。
 
 ## 各論文怎麼做
 
@@ -36,4 +38,5 @@ updated: 2026-11-17
 ## 相關頁面
 
 - [Reasoning and Acting](reasoning-and-acting.md)
+- [Agent 架構對照](../comparisons/agent-framework-map.md)
 - [數學應用題 benchmark](../benchmarks/math-word-problems.md)

@@ -2,6 +2,13 @@
 
 > 新的放最上面。格式：`## YYYY-MM-DD 動作：對象`，下面列新增／修改的頁面與備註。
 
+## 2026-11-17 ingest：wang2023-agent-survey
+- 新增：papers/wang2023-agent-survey.md、concepts/planning.md、comparisons/agent-framework-map.md
+- 更新：concepts/agent-memory.md、concepts/tool-use.md、concepts/chain-of-thought.md、index.md
+- 讀取方式：PDF 是雙欄排版，pdftotext 預設會把左右欄混在一起，改用 -x/-W 分欄裁切後再讀（raw/ 的 txt 不變，lint 照常比對）。
+- lint 第 1 次：2 個問題——時間軸的 arXiv 編號（2201、2210）只引了 Survey，但編號其實來自各論文首頁，出處標錯對象。改成引用各篇論文 p.1 後通過。
+- 矛盾檢查：無。Survey 對五篇論文的分類和各論文自述一致。
+
 ## 2026-11-17 ingest：park2023-generative-agents
 - 新增：papers/park2023-generative-agents.md、concepts/agent-memory.md
 - 更新：concepts/self-reflection.md、papers/shinn2023-reflexion.md、index.md

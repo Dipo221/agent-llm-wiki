@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Agent memory（agent 的記憶）
-sources: [park2023-generative-agents, shinn2023-reflexion, yao2022-react]
+sources: [park2023-generative-agents, shinn2023-reflexion, yao2022-react, wang2023-agent-survey]
 related: [papers/park2023-generative-agents.md, papers/shinn2023-reflexion.md, concepts/self-reflection.md]
 updated: 2026-11-17
 ---
@@ -11,6 +11,8 @@ updated: 2026-11-17
 ## 定義
 
 讓 agent 在 context window 之外保存經歷，需要時再取回來影響行為。Reflexion 把記憶分成短期（這次的軌跡）和長期（累積的反省）[@shinn2023-reflexion, §3]；Generative Agents 用「記憶流」完整記錄所有經歷，再依情境檢索 [@park2023-generative-agents, §4.1]。
+
+Survey 把只有短期記憶（寫在 prompt 裡）的設計稱為 unified memory，把短期＋長期的稱為 hybrid memory，Generative Agents 和 Reflexion 都屬於 hybrid [@wang2023-agent-survey, §2.1.2]。
 
 ## 各論文怎麼做
 
@@ -34,3 +36,5 @@ updated: 2026-11-17
 ## 相關頁面
 
 - [Self-reflection](self-reflection.md)
+- [Planning](planning.md)
+- [Agent 架構對照](../comparisons/agent-framework-map.md)
